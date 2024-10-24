@@ -1,14 +1,17 @@
 {
   "name": "trbolforms",
   "version": "1.0.0",
+  "description": "",
   "main": "index.js",
   "scripts": {
+    "start": "node app.js",  // or "node app.js" depending on your entry point
+    "build": "npm install",    // install dependencies
+    "migrate": "npx sequelize db:migrate",  // run migrations
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "description": "",
   "dependencies": {
     "bcryptjs": "^2.4.3",
     "cors": "^2.8.5",
@@ -17,6 +20,7 @@
     "jsonwebtoken": "^9.0.2",
     "pg": "^8.13.0",
     "pg-hstore": "^2.3.4",
-    "sequelize": "^6.37.4"
+    "sequelize": "^6.37.4",
+    "sequelize-cli": "^6.4.1"  // Add sequelize-cli to handle migrations
   }
 }
