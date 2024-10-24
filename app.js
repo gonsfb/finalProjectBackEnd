@@ -11,12 +11,24 @@ const formsRouter = require('./routes/forms'); // Add forms router
 
 // Middleware
 // Configure CORS to allow requests only from your frontend domain
-const corsOptions = {
-  origin: 'https://final-project-client-pfgwvdmbj-gonzalos-projects-55adf14f.vercel.app',
-  methods: 'GET,POST,PUT,DELETE', // Add any other methods you need
-  credentials: true, // If you're using cookies or authentication
-};
- app.use(cors(corsOptions));
+const allowedOrigins = [
+  'https://finalprojectclient-rhcb.onrender.com', // Your frontend on Render (if applicable)
+  'http://localhost:5173', // Local development frontend
+  'https://final-project-client-ashy.vercel.app' // Deployed Vercel frontend
+];
+
+app.use(cors({
+  origin: function (origin, callback) {
+    if (!origin) return callback(null, true);
+    if (allowedOrigins.indexOf(origin) !== -1) {
+      return callback(null, true);
+    } else {
+      return callback(new Error('Not allowed by CORS'));
+    }
+  },
+  methods: 'GET,POST,PUT,DELETE',
+  credentials: true
+}));
 
 app.use(bodyParser.json());
 
