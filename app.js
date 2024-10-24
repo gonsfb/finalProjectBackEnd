@@ -10,9 +10,13 @@ const templatesRouter = require('./routes/templates');
 const formsRouter = require('./routes/forms'); // Add forms router
 
 // Middleware
+// Configure CORS to allow requests only from your frontend domain
 app.use(cors({
-    origin: '*'
+    origin: 'https://finalprojectclient-rhcb.onrender.com', // Allow only your frontend
+    methods: 'GET,POST,PUT,DELETE', // Allowed methods
+    credentials: true // If using cookies, sessions, or any credentials
 }));
+
 app.use(bodyParser.json());
 
 // Routes
