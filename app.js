@@ -10,7 +10,9 @@ const templatesRouter = require('./routes/templates');
 const formsRouter = require('./routes/forms'); // Add forms router
 
 // Middleware
-app.use(cors());
+app.use(cors({
+    origin: '*'
+}));
 app.use(bodyParser.json());
 
 // Routes

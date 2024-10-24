@@ -3,6 +3,8 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const db = require('../models');
 const router = express.Router();
+const { authenticateToken } = require('../middleware/auth');
+
 
 // Registration route
 router.post('/register', async (req, res) => {
@@ -37,5 +39,19 @@ router.post('/login', async (req, res) => {
     res.status(500).json({ error: 'Server error' });
   }
 });
+
+// In your users route, add this:
+router.get('/me', authenticateToken, async (req, res) => {
+  try {
+      const user = await db.User.findByPk(req.user.userId);
+      if (!user) {
+          return res.status(404).json({ error: 'User not found' });
+      }
+      res.json({ role: user.role, ...user.toJSON() });
+  } catch (err) {
+      res.status(500).json({ error: 'Server error' });
+  }
+});
+
 
 module.exports = router;

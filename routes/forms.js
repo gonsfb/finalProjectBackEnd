@@ -81,5 +81,19 @@ router.delete('/:id', authenticateToken, async (req, res) => {
     }
 });
 
+router.get('/forms/mine', authenticateToken, async (req, res) => {
+    try {
+      const forms = await db.Form.findAll({
+        where: { userId: req.user.userId },
+        include: [{ model: db.Template, as: 'template' }]  // Including template details
+      });
+      res.json(forms);
+    } catch (error) {
+      console.error('Error fetching user forms:', error);
+      res.status(500).json({ error: 'Failed to fetch forms' });
+    }
+  });
+  
+
 module.exports = router;
     
