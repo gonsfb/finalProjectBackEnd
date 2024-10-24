@@ -11,11 +11,26 @@ const formsRouter = require('./routes/forms'); // Add forms router
 
 // Middleware
 // Configure CORS to allow requests only from your frontend domain
-app.use(cors({
-    origin: 'https://finalprojectclient-rhcb.onrender.com', // Allow only your frontend
+const allowedOrigins = [
+    'https://finalprojectclient-rhcb.onrender.com', // Deployed frontend
+    'http://localhost:5173'  // Local frontend running on port 5173
+  ];
+  
+  app.use(cors({
+    origin: function (origin, callback) {
+      // Allow requests with no origin (like mobile apps, curl requests, etc.)
+      if (!origin) return callback(null, true);
+      
+      // Allow requests from allowed origins
+      if (allowedOrigins.indexOf(origin) !== -1) {
+        return callback(null, true);
+      } else {
+        return callback(new Error('Not allowed by CORS'));
+      }
+    },
     methods: 'GET,POST,PUT,DELETE', // Allowed methods
     credentials: true // If using cookies, sessions, or any credentials
-}));
+  }));
 
 app.use(bodyParser.json());
 
